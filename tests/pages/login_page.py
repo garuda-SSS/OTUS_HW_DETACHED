@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
-
 from pages.base_page import BasePage
-
+import allure
 
 class LoginPage(BasePage):
     random_lokator1 = By.ID, 'footer'
@@ -27,20 +26,24 @@ class LoginPage(BasePage):
     PRODUCT_CHECKBOX = By.CSS_SELECTOR, '.table-hover tbody tr:first-child .text-center .form-check-input'
     DELETE_BTN = By.CSS_SELECTOR, '.fa-trash-can'
 
+    @allure.step('Авторизация в роли администратора')
     def authentication(self, timeout, username, password):
         self.correct_input(LoginPage.USERNAME, timeout, username)
         self.correct_input(LoginPage.PASSWORD, timeout, password)
         self.click_element(LoginPage.LOGIN_BTN)
         assert self.get_element(LoginPage.WORLD_MAP), "Вход не выполнен"
 
+    @allure.step('Выход из аккаунта')
     def exit(self):
         self.click_element(LoginPage.LOGOUT_BTN)
         assert self.get_element(LoginPage.PASSWORD), "Выход не выполнен"
 
+    @allure.step('Переход в каталог товаров')
     def open_menu_catalog_product(self):
         self.click_element(LoginPage.MENU_CATALOG)
         self.js_click_element(LoginPage.MENU_CATALOG_PRODUCT)
 
+    @allure.step('Добавляем новый товар')
     def add_new_product(self):
         self.open_menu_catalog_product()
         self.click_element(LoginPage.PLUS, timeout=40)
@@ -53,6 +56,7 @@ class LoginPage(BasePage):
         self.click_element(LoginPage.SAVE_BTN)
         assert self.get_element(BasePage.SUCCESS_ALERT), "Новый товар не создан"
 
+    @allure.step('Удаляем первый в списке товар')
     def delete_product(self):
         self.open_menu_catalog_product()
         self.click_element(LoginPage.PRODUCT_CHECKBOX)
