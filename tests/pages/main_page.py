@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
-
+import allure
 
 class MainPage(BasePage):
     random_lokator1 = By.CLASS_NAME, 'toast-container'
@@ -13,10 +13,12 @@ class MainPage(BasePage):
     US_DOLLAR = By.CSS_SELECTOR, '[href="USD"]'
     PRICE = By.CSS_SELECTOR, '.row-cols-md-3 .mb-3:first-of-type .price-new'
 
+    @allure.step('Добавляем товар в корзину')
     def add_product_to_basket(self, locator, timeout=5):
         self.js_click_element(locator, timeout)
         assert self.get_element(BasePage.SUCCESS_ALERT), "Товар не добавлен"
 
+    @allure.step('Меняет валюту через шапку сайта')
     def change_currency(self, currency, price_locator):
         self.click_element(MainPage.CURRENCY_LIST)
         if currency == 'euro':

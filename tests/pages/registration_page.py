@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
-
+import allure
 
 class RegistrationPage(BasePage):
     CONTINUE_BTN = By.CSS_SELECTOR, '.btn.btn-primary'
@@ -11,6 +11,7 @@ class RegistrationPage(BasePage):
     POLICY_AGREE_BTN = By.CSS_SELECTOR, '#form-register > div > div > input'
     TITTLE = By.CSS_SELECTOR, '#content h1'
 
+    @allure.step('Создаем нового пользователя')
     def create_new_user(self):
         email = self.unique_name()+'@test.test'
         self.correct_input(RegistrationPage.FIRSTNAME, timeout=5, text='test')
