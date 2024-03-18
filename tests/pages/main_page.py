@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 import allure
 
+
 class MainPage(BasePage):
     random_lokator1 = By.CLASS_NAME, 'toast-container'
     random_lokator2 = By.NAME, 'description'
