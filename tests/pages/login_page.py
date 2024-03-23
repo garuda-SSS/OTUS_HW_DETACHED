@@ -31,12 +31,20 @@ class LoginPage(BasePage):
         self.correct_input(LoginPage.USERNAME, timeout, username)
         self.correct_input(LoginPage.PASSWORD, timeout, password)
         self.click_element(LoginPage.LOGIN_BTN)
-        assert self.get_element(LoginPage.WORLD_MAP), "Вход не выполнен"
+        assert self.get_element(LoginPage.WORLD_MAP), allure.attach(
+                name='screenshot',
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
 
     @allure.step('Выход из аккаунта')
     def exit(self):
         self.click_element(LoginPage.LOGOUT_BTN)
-        assert self.get_element(LoginPage.PASSWORD), "Выход не выполнен"
+        assert self.get_element(LoginPage.PASSWORD), allure.attach(
+                name='screenshot',
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
 
     @allure.step('Переход в каталог товаров')
     def open_menu_catalog_product(self):
@@ -54,7 +62,11 @@ class LoginPage(BasePage):
         self.click_element(LoginPage.SEO)
         self.correct_input(LoginPage.SEO_INPUT, timeout=10, text=LoginPage.unique_name(self))
         self.click_element(LoginPage.SAVE_BTN)
-        assert self.get_element(BasePage.SUCCESS_ALERT), "Новый товар не создан"
+        assert self.get_element(BasePage.SUCCESS_ALERT), allure.attach(
+                name='screenshot',
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
 
     @allure.step('Удаляем первый в списке товар')
     def delete_product(self):
@@ -63,4 +75,8 @@ class LoginPage(BasePage):
         self.click_element(LoginPage.DELETE_BTN, timeout=20)
         alert = self.browser.switch_to.alert
         alert.accept()
-        assert self.get_element(BasePage.SUCCESS_ALERT), "Товар не удален"
+        assert self.get_element(BasePage.SUCCESS_ALERT), allure.attach(
+                name='screenshot',
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )

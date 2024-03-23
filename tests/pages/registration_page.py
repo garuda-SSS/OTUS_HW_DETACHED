@@ -22,5 +22,8 @@ class RegistrationPage(BasePage):
         self.click_element(RegistrationPage.POLICY_AGREE_BTN)
         self.click_element(RegistrationPage.CONTINUE_BTN)
         self.wait_to_vanish(RegistrationPage.POLICY_AGREE_BTN)
-        assert 'Your Account Has Been Created!' == self.get_element(RegistrationPage.TITTLE).text,\
-            "Пользователь не создан"
+        assert 'Your Account Has Been Created!' == self.get_element(RegistrationPage.TITTLE).text,allure.attach(
+                name='screenshot',
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
