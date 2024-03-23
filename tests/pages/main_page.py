@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 import allure
 
+
 class MainPage(BasePage):
     random_lokator1 = By.CLASS_NAME, 'toast-container'
     random_lokator2 = By.NAME, 'description'
@@ -16,19 +17,35 @@ class MainPage(BasePage):
     @allure.step('Добавляем товар в корзину')
     def add_product_to_basket(self, locator, timeout=5):
         self.js_click_element(locator, timeout)
-        assert self.get_element(BasePage.SUCCESS_ALERT), "Товар не добавлен"
+        assert self.get_element(BasePage.SUCCESS_ALERT), allure.attach(
+            name='screenshot',
+            body=self.browser.get_screenshot_as_png(),
+            attachment_type=allure.attachment_type.PNG
+        )
 
     @allure.step('Меняет валюту через шапку сайта')
     def change_currency(self, currency, price_locator):
         self.click_element(MainPage.CURRENCY_LIST)
         if currency == 'euro':
             self.js_click_element(MainPage.EURO)
-            assert '€' in self.get_element(price_locator).text, "Цены не изменились"
+            assert '€' in self.get_element(price_locator).text, allure.attach(
+                name='screenshot',
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
         elif currency == 'pound':
             self.js_click_element(MainPage.POUND_STERLIND)
-            assert '£' in self.get_element(price_locator).text, "Цены не изменились"
+            assert '£' in self.get_element(price_locator).text, allure.attach(
+                name='screenshot',
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
         elif currency == 'dollar':
             self.js_click_element(MainPage.US_DOLLAR)
-            assert '$' in self.get_element(price_locator).text, "Цены не изменились"
+            assert '$' in self.get_element(price_locator).text, allure.attach(
+                name='screenshot',
+                body=self.browser.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
         else:
             raise ValueError("Данной валюты не предусмотрено")
